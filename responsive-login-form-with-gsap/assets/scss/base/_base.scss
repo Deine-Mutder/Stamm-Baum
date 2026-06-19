@@ -1,0 +1,68 @@
+/*=============== BASE ===============*/
+*{
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+body,
+input,
+button{
+	font-family: var(--body-font);
+	font-size: var(--normal-font-size);
+}
+
+html{
+	scroll-behavior: auto;
+}
+
+body{
+	background-color: var(--body-color);
+	color: var(--text-color);
+	font-weight: 600;
+	min-height: 100vh;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+input,
+button{
+	border: none;
+	outline: none;
+}
+
+ul{
+	list-style: none;
+}
+
+a{
+	text-decoration: none;
+}
+
+img{
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
+/* App-Ansichten: nur eine Sektion gleichzeitig sichtbar */
+.app-hidden{
+	display: none !important;
+}
+
+@keyframes login-error-in{
+	from{
+		opacity: 0;
+		transform: translateY(-8px);
+	}
+	to{
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes login-shake{
+	0%, 100%{ transform: translateX(0); }
+	20%, 60%{ transform: translateX(-6px); }
+	40%, 80%{ transform: translateX(6px); }
+}

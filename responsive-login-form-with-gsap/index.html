@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark"> <head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+
+   <link rel="stylesheet" href="assets/css/styles.css">
+
+   <script>
+      (function() {
+         try {
+            const rawSession = sessionStorage.getItem('stammbaum_session');
+            if (rawSession) {
+               const session = JSON.parse(rawSession);
+               if (session && session.welcomeShown) {
+                  const savedTheme = localStorage.getItem('stammbaum_theme') || 'light'; // FIX 2: Wenn eingeloggt, wird Light-Mode bevorzugt
+                  document.documentElement.setAttribute('data-theme', savedTheme);
+                  return;
+               }
+            }
+         } catch (e) {
+            console.error("Error loading theme", e);
+         }
+         document.documentElement.setAttribute('data-theme', 'dark');
+      })();
+   </script>
+
+   <title>Login – Familienstammbaum</title>
+</head>
+<body>
+   <div class="liquid-bg" aria-hidden="true">
+      <div class="liquid-bg__theme-bg liquid-bg__theme-bg--dark"></div>
+      <div class="liquid-bg__theme-bg liquid-bg__theme-bg--light"></div>
+      <div class="liquid-bg__blob liquid-bg__blob--1"></div>
+      <div class="liquid-bg__blob liquid-bg__blob--2"></div>
+      <div class="liquid-bg__blob liquid-bg__blob--3"></div>
+   </div>
+   
+   <section class="landing" id="app-landing">
+      <div class="landing__inner">
+         <h1 class="landing__title">
+   Familienstammbaum der <br>
+   <span class="landing__title-highlight">Familie Bormann</span>
+</h1>
+         <p class="landing__subtitle">made by Konstantin</p>
+         <button id="landing-get-started" class="landing__button">Get Started</button>
+      </div>
+   </section>
+
+   <section class="login app-hidden" id="app-login">
+      <div class="login__content">
+         <div>
+            <h2 class="login__title">Willkommen</h2>
+   
+            <form action="" method="post" class="login__form" id="login-form" autocomplete="off" novalidate>
+               <input type="text" name="fake-user" autocomplete="username" tabindex="-1" aria-hidden="true" class="login__honeypot">
+               <input type="password" name="fake-pass" autocomplete="current-password" tabindex="-1" aria-hidden="true" class="login__honeypot">
+
+               <div class="login__error" id="login-error" role="alert" aria-live="polite">
+                  <i class="ri-error-warning-fill"></i>
+                  <span>Benutzername oder Passwort ist falsch.</span>
+               </div>
+
+               <div class="login__group">
+                  <div class="login__box">
+                     <i class="ri-user-fill login__icon"></i>
+                     <input
+                        type="text"
+                        name="username"
+                        autocomplete="off"
+                        autocorrect="off"
+                        autocapitalize="off"
+                        spellcheck="false"
+                        data-lpignore="true"
+                        data-form-type="other"
+                        required
+                        placeholder=" "
+                        class="login__input"
+                        id="username"
+                        readonly
+                     >
+                     <label for="username" class="login__label">Benutzername</label>
+                  </div>
+                  
+                  <div class="login__box" style="position: relative;">
+                     <i class="ri-lock-2-fill login__icon"></i>
+                     <input
+                        type="password"
+                        name="password"
+                        autocomplete="current-password" 
+                        data-lpignore="true"
+                        data-form-type="other"
+                        required
+                        placeholder=" "
+                        class="login__input"
+                        id="password"
+                        readonly
+                     >
+                     <label for="password" class="login__label">Passwort</label>
+   
+                     <i class="ri-eye-off-line login__eye" id="password-eye" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 10;"></i>
+                  </div>
+               </div>
+               <button type="submit" class="login__button" id="login-button">
+                  Log In <i class="ri-send-plane-2-fill"></i>
+               </button>
+            </form>
+         </div>
+
+         <div class="login__image">
+            <img src="assets/img/login-bg.png" alt="" class="login__img">
+         </div>
+      </div>
+   </section>
+
+   <div class="welcome-screen" id="app-welcome" aria-hidden="true">
+      <div class="welcome-screen__bg" id="welcome-bg">
+         <div class="welcome-screen__base"></div>
+         <div class="welcome-screen__glow welcome-screen__glow--trail"></div>
+         <div class="welcome-screen__glow welcome-screen__glow--accent"></div>
+         <div class="welcome-screen__glow welcome-screen__glow--core"></div>
+      </div>
+      <div class="welcome-screen__text-wrap">
+         <h1 class="welcome-screen__text" id="welcome-text"></h1>
+      </div>
+   </div>
+
+   <main class="dashboard app-hidden" id="app-dashboard" aria-hidden="true">
+      <div class="dashboard__container">
+         <header class="dashboard__header">
+            <h1 class="dashboard__title">Familienstammbaum</h1>
+            <div class="dashboard__actions">
+               <button type="button" class="dashboard__theme-toggle" id="theme-toggle-btn" aria-label="Farbschema wechseln">
+                  <i class="ri-sun-line theme-icon-light"></i>
+                  <i class="ri-moon-line theme-icon-dark"></i>
+               </button>
+               <button type="button" class="dashboard__logout" id="logout-btn">
+                  <i class="ri-logout-box-r-line"></i>
+                  Abmelden
+               </button>
+            </div>
+         </header>
+
+         <section class="dashboard__welcome">
+            <h2 class="dashboard__greeting" id="dashboard-greeting"></h2>
+            <p class="dashboard__message">Willkommen im Familienstammbaum.</p>
+         </section>
+
+         <!-- Neues Informations-Panel & Hauptaktion -->
+         <div class="dashboard__content" id="dashboard-content">
+            <div class="dashboard__profile-panel">
+               <div class="profile-panel__header">
+                  <i class="ri-user-heart-line profile-panel__avatar-icon"></i>
+                  <h3 class="profile-panel__title">Persönliche Daten</h3>
+               </div>
+               
+               <div class="profile-panel__info">
+                  <div class="profile-panel__item">
+                     <span class="profile-panel__label">Name</span>
+                     <span class="profile-panel__value" id="profile-name">-</span>
+                  </div>
+                  <div class="profile-panel__item">
+                     <span class="profile-panel__label">Geboren am</span>
+                     <span class="profile-panel__value" id="profile-birthdate">-</span>
+                  </div>
+                  <div class="profile-panel__item">
+                     <span class="profile-panel__label">Kinder</span>
+                     <span class="profile-panel__value" id="profile-children">-</span>
+                  </div>
+                  <div class="profile-panel__item">
+                     <span class="profile-panel__label">Verheiratet</span>
+                     <span class="profile-panel__value" id="profile-married">-</span>
+                  </div>
+               </div>
+            </div>
+
+            <button type="button" class="dashboard__cta-btn" id="open-tree-btn">
+               <i class="ri-node-tree"></i>
+               <span>Stammbaum aufrufen</span>
+            </button>
+         </div>
+      </div>
+   </main>
+
+   <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
+
+   <script src="assets/js/data.js"></script>
+   <script src="assets/js/auth.js"></script>
+   <script src="assets/js/animation-utils.js"></script>
+   <script src="assets/js/dashboard.js"></script>
+   <script src="assets/js/main.js"></script>
+</body>
+</html>
