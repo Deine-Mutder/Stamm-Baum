@@ -15,7 +15,7 @@ const USER_DATA = {
       password: 'bormann26',
       displayName: 'Konstantin',
       role: 'admin',
-      birthdate: '16.05.2010',
+      birthdate: '16.05.201000000',
       children: 'Nein',
       married: 'Nein',
    },
